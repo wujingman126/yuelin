@@ -103,6 +103,7 @@ public class AuthController {
             //踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(),token);
         }
+        System.out.print("test........");
         return ResponseEntity.ok(authInfo);
     }
 
