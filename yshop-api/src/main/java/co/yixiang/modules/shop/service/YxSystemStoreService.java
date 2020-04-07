@@ -3,6 +3,7 @@ package co.yixiang.modules.shop.service;
 import co.yixiang.modules.shop.entity.YxSystemStore;
 import co.yixiang.common.service.BaseService;
 import co.yixiang.modules.shop.web.param.YxSystemStoreQueryParam;
+import co.yixiang.modules.shop.web.param.YxSystemStoreSaveParam;
 import co.yixiang.modules.shop.web.vo.YxSystemStoreQueryVo;
 import co.yixiang.common.web.vo.Paging;
 
@@ -34,4 +35,10 @@ public interface YxSystemStoreService extends BaseService<YxSystemStore> {
      */
     Paging<YxSystemStoreQueryVo> getYxSystemStorePageList(YxSystemStoreQueryParam yxSystemStoreQueryParam) throws Exception;
 
+    /**
+     * 商家入驻
+     * @param yxSystemStoreQueryParam
+     * @return
+     */
+    int merchantsSave(YxSystemStoreSaveParam yxSystemStoreQueryParam);
 }

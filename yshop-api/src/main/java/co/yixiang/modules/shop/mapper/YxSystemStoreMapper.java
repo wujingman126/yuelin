@@ -1,5 +1,6 @@
 package co.yixiang.modules.shop.mapper;
 
+import co.yixiang.modules.shop.web.param.YxSystemStoreSaveParam;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -37,4 +38,10 @@ public interface YxSystemStoreMapper extends BaseMapper<YxSystemStore> {
      */
     IPage<YxSystemStoreQueryVo> getYxSystemStorePageList(@Param("page") Page page, @Param("param") YxSystemStoreQueryParam yxSystemStoreQueryParam);
 
+    /**
+     * 商家入驻
+     * @param param
+     * @return
+     */
+    int merchantsSave(YxSystemStoreSaveParam param);
 }

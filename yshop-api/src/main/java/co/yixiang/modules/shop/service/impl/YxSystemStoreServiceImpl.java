@@ -4,10 +4,12 @@ import co.yixiang.modules.shop.entity.YxSystemStore;
 import co.yixiang.modules.shop.mapper.YxSystemStoreMapper;
 import co.yixiang.modules.shop.mapping.SystemStoreMap;
 import co.yixiang.modules.shop.service.YxSystemStoreService;
+import co.yixiang.modules.shop.web.param.YxSystemStoreSaveParam;
 import co.yixiang.modules.shop.web.param.YxSystemStoreQueryParam;
 import co.yixiang.modules.shop.web.vo.YxSystemStoreQueryVo;
 import co.yixiang.common.service.impl.BaseServiceImpl;
 import co.yixiang.common.web.vo.Paging;
+import co.yixiang.utils.BeanUtil;
 import co.yixiang.utils.RedisUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import java.io.Serializable;
 
 
@@ -45,22 +48,28 @@ public class YxSystemStoreServiceImpl extends BaseServiceImpl<YxSystemStoreMappe
         YxSystemStore systemStore = new YxSystemStore();
         systemStore.setIsDel(0);
         YxSystemStore yxSystemStore = yxSystemStoreMapper.selectOne(Wrappers.query(systemStore));
-        if(yxSystemStore == null) return null;
+        if (yxSystemStore == null) return null;
         String mention = RedisUtil.get("store_self_mention");
-        if(mention == null || Integer.valueOf(mention) == 2) return null;
+        if (mention == null || Integer.valueOf(mention) == 2) return null;
         return storeMap.toDto(yxSystemStore);
     }
 
     @Override
-    public YxSystemStoreQueryVo getYxSystemStoreById(Serializable id) throws Exception{
+    public YxSystemStoreQueryVo getYxSystemStoreById(Serializable id) {
         return yxSystemStoreMapper.getYxSystemStoreById(id);
     }
 
     @Override
-    public Paging<YxSystemStoreQueryVo> getYxSystemStorePageList(YxSystemStoreQueryParam yxSystemStoreQueryParam) throws Exception{
-        Page page = setPageParam(yxSystemStoreQueryParam,OrderItem.desc("create_time"));
-        IPage<YxSystemStoreQueryVo> iPage = yxSystemStoreMapper.getYxSystemStorePageList(page,yxSystemStoreQueryParam);
+    public Paging<YxSystemStoreQueryVo> getYxSystemStorePageList(YxSystemStoreQueryParam yxSystemStoreQueryParam) {
+        Page page = setPageParam(yxSystemStoreQueryParam, OrderItem.desc("create_time"));
+        IPage<YxSystemStoreQueryVo> iPage = yxSystemStoreMapper.getYxSystemStorePageList(page, yxSystemStoreQueryParam);
         return new Paging(iPage);
+    }
+
+    @Override
+    public int merchantsSave(YxSystemStoreSaveParam param) {
+        YxSystemStore yxSystemStore = BeanUtil.copyProperties(param, YxSystemStore.class);
+        return yxSystemStoreMapper.insert(yxSystemStore);
     }
 
 }
